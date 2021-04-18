@@ -42,9 +42,20 @@ public void setnQuarto(long nQuarto) {
 }
 
  
- public void AtualizarDatas(Date dataEntrada, Date dataSaida) {
+ public String AtualizarDatas(Date dataEntrada, Date dataSaida) {
+	 
+	 Date dataAtual = new Date();
+	 
+	 if (dataEntrada.before(dataAtual) || dataSaida.before(dataAtual)) {
+	 return "Data de entrada e saida deve ser maior que a data atual";
+	 }
+	 if (dataSaida.before(dataEntrada)) {
+	 return "Data de saida deve ser maior que a data de entrada";
+	 }
+	 	 
 	 this.dataEntrada=dataEntrada;
 	 this.dataSaida = dataSaida;
+	 return null;
  }
 
  @Override

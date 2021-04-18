@@ -39,17 +39,15 @@ public class Main {
 		dataEntrada = sdf.parse(sc.next());
 		System.out.print("Digite a data de saida (DD/MM/AAA):");
 		dataSaida = sdf.parse(sc.next());	
-		
-		 if (dataEntrada.before(dataAtual) || dataSaida.before(dataAtual)) {
-		 	System.out.println("Data de entrada e saida deve ser maior que a data atual");
+	    
+		String msgError = reserva.AtualizarDatas(dataEntrada, dataSaida);
+		 if (msgError==null) {
+			 System.out.println(reserva);
 		 }
-		 else if (dataSaida.before(dataEntrada)) {
-			System.out.println("Data de saida deve ser maior que a data de entrada");
+		 else {
+			 System.out.println(msgError);
 		 }
-		 else {	
-		 reserva.AtualizarDatas(dataEntrada, dataSaida);
-		 System.out.println(reserva);
-		 }
+
 		}
 			
 		sc.close(); 
