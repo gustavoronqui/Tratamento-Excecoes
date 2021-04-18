@@ -1,15 +1,19 @@
 package program;
 
+import java.security.InvalidParameterException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import entities.Reserva;
 
 public class Main {
 
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args) {
+		
+	 try{
 		
 		Scanner sc = new Scanner(System.in);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -20,15 +24,7 @@ public class Main {
 		Date  dataEntrada = sdf.parse(sc.next());
 		System.out.print("Digite a data de saida (DD/MM/AAA):");
 		Date  dataSaida = sdf.parse(sc.next());	
-		Date dataAtual = new Date();
 		
-		if (dataEntrada.before(dataAtual) || dataSaida.before(dataAtual)) {
-			System.out.println("Data de entrada e saida deve ser maior que a data atual");
-		}
-		else if (dataSaida.before(dataEntrada)) {
-			System.out.println("Data de saida deve ser maior que a data de entrada");
-		}
-		else {	
 		Reserva reserva = new Reserva(nQuarto, dataEntrada, dataSaida);
 		System.out.println(reserva);
 		
@@ -38,19 +34,22 @@ public class Main {
 		System.out.print("Digite a data de entrada (DD/MM/AAA):");
 		dataEntrada = sdf.parse(sc.next());
 		System.out.print("Digite a data de saida (DD/MM/AAA):");
-		dataSaida = sdf.parse(sc.next());	
-	    
-		String msgError = reserva.AtualizarDatas(dataEntrada, dataSaida);
-		 if (msgError==null) {
-			 System.out.println(reserva);
-		 }
-		 else {
-			 System.out.println(msgError);
-		 }
-
+		dataSaida = sdf.parse(sc.next());
+		reserva.AtualizarDatas(dataEntrada, dataSaida);
+	    System.out.println(reserva);
+		
+	    sc.close(); 
+	   }
+		catch(ParseException e) {
+			System.out.println("Formato de data Invalido");
 		}
-			
-		sc.close(); 
-	}
+	    catch (InvalidParameterException e) {
+			System.out.println(e.getMessage());
+		}
+	    catch(InputMismatchException e) {
+	       System.out.println("Input invalido");	
+	    }
+	    
 
+ }
 }

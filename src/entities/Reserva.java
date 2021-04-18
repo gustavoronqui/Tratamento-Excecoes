@@ -1,5 +1,6 @@
 package entities;
 
+import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -10,15 +11,26 @@ public class Reserva {
  Date dataEntrada;
  Date dataSaida;
  SimpleDateFormat sdf =  new SimpleDateFormat("dd/MM/yyyy");
+ Date dataAtual = new Date();
  
  
  public Reserva() {
 	 
  }
  public Reserva(long nQuarto, Date dataEntrada,Date dataSaida) {
-  this.dataEntrada=dataEntrada;
-  this.dataSaida=dataSaida;
-  this.nQuarto=nQuarto;
+	 
+	 
+	 if (dataEntrada.before(dataAtual) || dataSaida.before(dataAtual)) {
+		 throw new InvalidParameterException("Data de entrada e saida deve ser maior que a data atual");
+		 }
+	 if (dataSaida.before(dataEntrada)) {
+		 throw new InvalidParameterException("Data de saida deve ser maior que a data de entrada");
+		 }
+      
+ 
+	  this.dataEntrada=dataEntrada;
+      this.dataSaida=dataSaida;
+      this.nQuarto=nQuarto;
  }
  
 public long getnQuarto() {
@@ -42,20 +54,18 @@ public void setnQuarto(long nQuarto) {
 }
 
  
- public String AtualizarDatas(Date dataEntrada, Date dataSaida) {
-	 
-	 Date dataAtual = new Date();
+ public void AtualizarDatas(Date dataEntrada, Date dataSaida) {
 	 
 	 if (dataEntrada.before(dataAtual) || dataSaida.before(dataAtual)) {
-	 return "Data de entrada e saida deve ser maior que a data atual";
+	 throw new InvalidParameterException("Data de entrada e saida deve ser maior que a data atual");
 	 }
 	 if (dataSaida.before(dataEntrada)) {
-	 return "Data de saida deve ser maior que a data de entrada";
+	 throw new InvalidParameterException("Data de saida deve ser maior que a data de entrada");
 	 }
 	 	 
 	 this.dataEntrada=dataEntrada;
 	 this.dataSaida = dataSaida;
-	 return null;
+	
  }
 
  @Override
